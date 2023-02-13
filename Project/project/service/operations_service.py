@@ -1,4 +1,5 @@
-from fastapi import Depends
+from datetime import datetime
+from fastapi import Depends, HTTPException, status
 from sqlalchemy.orm import Session
 from project.db.db import get_session
 from project.models.dto.operations_dto import CreateOperationDto, UpdateOperationDto
@@ -41,6 +42,32 @@ class OperationsService:
             )
             .all()
         )
+
+        return operations
+
+    def get_report(self,
+                   tank_id: int,
+                   product_id: int,
+                   date_start: datetime,
+                   date_end: datetime) -> list[Operation]:
+        operations = (
+            self.session
+            .query(Operation)
+            .filter(
+                Operation.tank_id == tank_id,
+                Operation.product_id == product_id,
+                Operation.date_start < date_start,
+                Operation.date_end > date_end
+            )
+            .order_by(
+                Operation.id.desc()
+            )
+            .all()
+        )
+
+        if not operations:
+            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
+                                detail='Не найдено операций соответствующих заданным параметрам')
 
         return operations
 

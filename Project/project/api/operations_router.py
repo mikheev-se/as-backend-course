@@ -1,8 +1,11 @@
-from fastapi import APIRouter, Depends, status, Query
+from datetime import datetime
+from fastapi import APIRouter, Depends, status
+from fastapi.responses import StreamingResponse
 from project.api.tanks_router import check_for_tank
 from project.api.utils.check_for_item import check_for_item
 from project.models.dto.operations_dto import CreateOperationDto, ResponseOperationDto, UpdateOperationDto
 from project.models.operation import Operation
+from project.service.files_service import FilesService
 from project.service.operations_service import OperationsService
 from project.service.tanks_service import TanksService
 from project.service.utils.jwt_service import JwtService
@@ -39,6 +42,26 @@ def get_by_tank(tank_id: int,
     """
     check_for_tank(tank_id, tanks_service)
     return operations_service.get_by_tank(tank_id)
+
+
+@operations_router.get('/report/', status_code=status.HTTP_200_OK, name='Получить операции с заданным id резервуара')
+def get_report(tank_id: int,
+               product_id: int,
+               date_start: datetime,
+               date_end: datetime,
+               operations_service: OperationsService = Depends(),
+               files_service: FilesService = Depends(),
+               user_id: int = Depends(JwtService.get_current_user_id)):
+    """
+    Возвращает данные об операцииях, связанных с данным резервуаром
+    """
+    report = operations_service.get_report(
+        tank_id, product_id, date_start, date_end
+    )
+    report_stream = files_service.download(report)
+    return StreamingResponse(report_stream, media_type='text/csv', headers={
+        'Content-Disposition': f'attachment; filename=report_{datetime.utcnow()}.csv'
+    })
 
 
 @operations_router.post('/', response_model=ResponseOperationDto, status_code=status.HTTP_201_CREATED, name='Добавить операцию')
