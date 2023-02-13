@@ -1,6 +1,6 @@
 from itertools import product
 from project.models.base import Base
-from sqlalchemy import Column, Integer, String, Float, TIMESTAMP, ForeignKey
+from sqlalchemy import CheckConstraint, Column, Integer, String, Float, TIMESTAMP, ForeignKey
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
 
@@ -10,7 +10,10 @@ class Tank(Base):
     id = Column(Integer, primary_key=True)
     name = Column(String)
     max_capacity = Column(Float)
-    current_capacity = Column(Float)
+    current_capacity = Column(Float,
+                              CheckConstraint(
+                                  "current_capacity<=max_capacity"
+                              ))
     product_id = Column(Integer,
                         ForeignKey('products.id', name='created_by_fk'))
     product = relationship('Product')
