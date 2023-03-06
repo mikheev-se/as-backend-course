@@ -10,6 +10,8 @@ python = ">=3.10,<3.12"
 tensorflow = "^2.11.0"
 fastapi = "^0.92.0"
 dash = "^2.8.1"
+sqlalchemy = "^2.0.5.post1"
+alembic = "^1.10.0"
 
 
 [build-system]
