@@ -1,0 +1,60 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+#root {
+  max-width: 1000px;
+  margin: auto;
+}
+
+.content {
+  display: flex;
+  column-gap: 40px;
+  flex-wrap: nowrap;
+}
+
+.navbar {
+  width: 20%;
+  min-width: 180px;
+  text-align: right;
+  border-right: 3px solid black;
+  padding: 10px 40px 10px 0px;
+  flex-shrink: 0;
+}
+
+.page-content {
+  /* border-left: 3px solid black; */
+  /* padding: 10px 0px 10px 40px; */
+  width: 80%;
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  row-gap: 15px;
+  max-width: 400px;
+  margin: auto;
+}
+
+#datatable {
+  display: flex;
+  flex-direction: column;
+}
+
+#datatable .show-hide-menu {
+  flex-direction: row;
+  flex-wrap: wrap;
+  position: relative;
+  top: 0;
+}
+
+.dash-spreadsheet-menu {
+  margin-bottom: 15px;
+  order: 2;
+}
+
+.dash-spreadsheet-menu > * {
+  padding-right: 0 !important;
+}
