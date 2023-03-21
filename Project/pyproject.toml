@@ -9,10 +9,23 @@ readme = "README.md"
 python = ">=3.10,<3.12"
 tensorflow = "^2.11.0"
 fastapi = "^0.92.0"
-dash = "^2.8.1"
 sqlalchemy = "^2.0.5.post1"
 alembic = "^1.10.0"
+psycopg2-binary = "^2.9.5"
+uvicorn = "^0.20.0"
+passlib = "^1.7.4"
+python-jose = "^3.3.0"
+python-multipart = "^0.0.6"
+python-dotenv = "^1.0.0"
+pandas = "^1.5.3"
+scikit-learn = "^1.2.1"
+plotly = "^5.13.1"
+dash = "^2.9.1"
 
+
+[tool.poetry.group.dev.dependencies]
+autopep8 = "^2.0.2"
+ipython = "^8.11.0"
 
 [build-system]
 requires = ["poetry-core"]
