@@ -71,8 +71,11 @@ class ModelService:
             raise HTTPException(
                 status_code=status.HTTP_400_BAD_REQUEST, detail='Данные не подготовлены')
 
+        len_ = int(len(df) * .7)
+
         self.model.fit(
-            df.drop([self.target], axis=1).values, df[self.target].values
+            df.drop([self.target],
+                    axis=1).values[:len_], df[self.target].values[:len_]
         )
 
         with open(self.model_path, 'wb') as f:
