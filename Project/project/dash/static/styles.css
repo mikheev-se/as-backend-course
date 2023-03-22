@@ -5,8 +5,10 @@
 }
 
 #root {
-  max-width: 1000px;
+  max-width: 1500px;
+  min-width: 700px;
   margin: auto;
+  padding: 0 50px;
 }
 
 .content {
@@ -57,4 +59,12 @@
 
 .dash-spreadsheet-menu > * {
   padding-right: 0 !important;
+}
+
+h2 {
+  margin-top: 0;
+}
+
+p {
+  margin-bottom: 10px;
 }

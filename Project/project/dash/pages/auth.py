@@ -3,7 +3,7 @@ from dash import html, dcc, dash_table
 import requests
 from project.dash.utils import API_URL, get_auth_header, token
 
-dash.register_page(__name__)
+dash.register_page(__name__, title='Авторизация')
 
 
 def layout():
@@ -13,18 +13,23 @@ def layout():
         user = res.json()
         return html.Div([
             html.H3(f'Добро пожаловать, {user["username"]}!'),
-            html.P(f'Ваша роль: {user["role"]}')
+            html.P(f'Ваша роль: {user["role"]}'),
+            html.P(
+                f'Дата регистрации: {user["created_at"]}') if user["created_at"] else None
         ])
 
     return html.Div(
-        html.Form(
-            children=[
-                dcc.Input(placeholder='Login', name='username', value=''),
-                dcc.Input(placeholder='Password',
-                          type='password', name='password', value=''),
-                html.Button(children='Sign in', type='submit')],
-            action='api/users/authorize',
-            method='post',
-            className='auth-form'
-        )
+        [
+            html.H2(children='Авторизация'),
+            html.Form(
+                children=[
+                    dcc.Input(placeholder='Логин', name='username', value=''),
+                    dcc.Input(placeholder='Пароль',
+                              type='password', name='password', value=''),
+                    html.Button(children='Войти', type='submit')],
+                action='api/users/authorize',
+                method='post',
+                className='auth-form'
+            )
+        ]
     )

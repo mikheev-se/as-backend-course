@@ -18,12 +18,11 @@ app = Dash(__name__, use_pages=True, external_stylesheets=stylesheets,
            suppress_callback_exceptions=True)
 
 app.layout = html.Div([
-    html.H1('Multi-page app with Dash Pages'),
-    dcc.Store(id='local', storage_type='local'),
+    html.H1('Интерактивный дашборд'),
 
     html.Div([
         html.Nav(
-            [
+            [html.P('Страницы')] + [
                 html.Div(
                     dcc.Link(
                         f"{page['name']} - {page['path']}", href=page["relative_path"]
@@ -75,7 +74,7 @@ def fit_render(n_clicks: int):
                                     headers=get_auth_header())
                 rows = StringIO(res.content.decode())
                 df = pd.read_csv(rows, sep=';')
-                fig = px.line(df)
+                fig = px.line(df, title='Значения целевого признака')
 
                 return fig
             case 401:
@@ -103,7 +102,7 @@ def parse_contents(contents, filename):
                     new_df = pd.read_csv(
                         StringIO(res.content.decode()), sep=';')
                     new_df.columns = ['pred']
-                    fig = px.line(new_df)
+                    fig = px.line(new_df, title='Значения целевого признака')
                     new_df['true'] = df['MMTCO2E'].values.flatten()
                     fig.add_trace(
                         go.Scatter(

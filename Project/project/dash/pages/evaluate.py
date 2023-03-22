@@ -2,18 +2,21 @@ import dash
 from dash import html, dcc
 from project.dash.utils import token
 
-dash.register_page(__name__)
+dash.register_page(__name__, title='Оценка качества модели')
 
 
 def layout():
     if not token.token:
-        return html.Div(dcc.Link(children='Unauthorized. Click here to sign in', href='/auth'))
+        return html.Div(dcc.Link(children='Вы не авторизованы. Нажмите, чтобы авторизоваться', href='/auth'))
     return html.Div([
+        html.H2(children='Оценка качества модели'),
+        html.P('На данной странице можно загрузить свои данные, получить по ним предсказания и сравнить их с "настоящими" значениями на графике.'),
+        html.P('Загруженные данные должны быть предобработаны. Также в них должен присутствовать целевой признак.'),
         dcc.Upload(
             id='upload-data',
             children=html.Div([
-                'Drag and Drop or ',
-                html.A('Select Files')
+                'Загрузите файлы или ',
+                html.A('перетащите их сюда')
             ]),
             style={
                 'width': '100%',
@@ -26,6 +29,5 @@ def layout():
                 'margin': '10px'
             },
         ),
-        html.Div(id='output-data-upload'),
         dcc.Graph(id='evaluate-graph')
     ])
