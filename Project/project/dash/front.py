@@ -52,6 +52,19 @@ def auth():
     return flask.redirect('/auth')
 
 
+@app.server.route('/api/users/register', methods=['POST'])
+def register():
+    data = flask.request.form
+    res = requests.post(API_URL + 'users/register', json=dict(data))
+    match res.status_code:
+        case 201:
+            res = requests.post(API_URL + 'users/authorize', data=data)
+            token.token = res.json()['access_token']
+        case 403:
+            return flask.redirect('/register')
+    return flask.redirect('/auth')
+
+
 @app.server.route('/api/model/prepare')
 def download():
     res = requests.get(API_URL + 'model/prepare', headers=get_auth_header())
