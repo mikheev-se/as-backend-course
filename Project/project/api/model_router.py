@@ -27,7 +27,7 @@ def fit(background_tasks: BackgroundTasks, model_service: ModelService = Depends
     """
     Производит обучение модели на сохранённых на сервере данных. Если на сервере нет подготовленных данных будет выдана ошибка
     """
-    background_tasks.add_task(model_service.fit, requester_id)
+    model_service.fit(requester_id)
 
 
 @model_router.post('/predict', response_class=FileResponse, status_code=status.HTTP_200_OK, name='Получить предсказания')
